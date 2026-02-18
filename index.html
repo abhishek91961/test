@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typesense Browser Monitor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Typesense Cluster & Data Monitor</h1>
+      <p>Frontend-only dashboard for Typesense APIs.</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Connection</h2>
+        <form id="connection-form">
+          <label>
+            Typesense Host
+            <input id="host" type="url" placeholder="https://typesense.example.com" required />
+          </label>
+          <label>
+            API Key
+            <input id="api-key" type="password" placeholder="Your API key" required />
+          </label>
+          <div class="inline">
+            <label>
+              Protocol
+              <select id="protocol">
+                <option value="https">https</option>
+                <option value="http">http</option>
+              </select>
+            </label>
+            <label>
+              Port
+              <input id="port" type="number" min="1" max="65535" value="443" />
+            </label>
+            <label>
+              Path Prefix
+              <input id="path-prefix" type="text" placeholder="optional e.g. /typesense" />
+            </label>
+          </div>
+          <div class="actions">
+            <button type="submit">Connect</button>
+            <button type="button" id="disconnect">Disconnect</button>
+          </div>
+        </form>
+        <p class="hint">Credentials are stored only in your browser localStorage.</p>
+        <p id="status" class="status">Not connected.</p>
+      </section>
+
+      <section class="card">
+        <h2>Cluster Health</h2>
+        <div id="health-grid" class="grid">
+          <div class="metric"><span>Status</span><strong id="health-ok">-</strong></div>
+          <div class="metric"><span>Node</span><strong id="node">-</strong></div>
+          <div class="metric"><span>Version</span><strong id="version">-</strong></div>
+          <div class="metric"><span>Docs</span><strong id="docs-count">-</strong></div>
+          <div class="metric"><span>Collections</span><strong id="collections-count">-</strong></div>
+          <div class="metric"><span>Memory</span><strong id="memory">-</strong></div>
+        </div>
+        <button id="refresh-health">Refresh Health</button>
+      </section>
+
+      <section class="card">
+        <h2>Collections</h2>
+        <div class="collections-layout">
+          <aside>
+            <ul id="collection-list"></ul>
+          </aside>
+          <article>
+            <h3 id="selected-collection-title">Select a collection</h3>
+            <pre id="collection-schema">No collection selected.</pre>
+
+            <div class="search-panel">
+              <label>
+                Query
+                <input id="query" type="text" value="*" />
+              </label>
+              <label>
+                Query By
+                <input id="query-by" type="text" placeholder="field1,field2" />
+              </label>
+              <label>
+                Per Page
+                <input id="per-page" type="number" min="1" max="250" value="10" />
+              </label>
+              <button id="run-search" type="button">Run Search</button>
+            </div>
+            <pre id="search-results">Search results will appear here.</pre>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <template id="collection-item-template">
+      <li>
+        <button type="button" class="collection-item"></button>
+      </li>
+    </template>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
